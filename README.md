@@ -47,3 +47,7 @@ All sources are requested through the existing public rss2json demo endpoint. Fe
 
 ## Interactive rotating globe
 The map panel uses the open-source Globe.gl library loaded from its public CDN and a public Earth texture. It rotates automatically, supports drag-to-rotate and scroll-to-zoom, and shows a publisher-feed marker for the United States. The adjacent region buttons filter stories by the source labels currently available in RSS feeds. They do not represent verified event locations. The globe requires an internet connection to load its JavaScript library and texture; there is no API key or paid map subscription.
+
+
+## Colorful and user-friendly visual refresh
+This version adds a brighter turquoise, sky-blue, green, sunshine-yellow and coral-inspired palette; clearer visual hierarchy; softer card styling; more visible focus states for keyboard users; and reduced-motion support. It preserves the feed, category filters, Top 10, briefing and interactive globe. No paid service or API key is added.
