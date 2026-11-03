@@ -141,3 +141,69 @@ a:hover{color:#0a9c85}
 @media(min-width:1100px){.page{margin-right:118px}}
 @media(max-width:1099px){.side-menu{right:10px;width:66px;padding:8px 5px}.side-menu a,.side-menu button{min-height:51px}.side-menu small{font-size:8px}}
 @media(max-width:760px){.side-menu{top:auto;bottom:12px;left:50%;right:auto;transform:translateX(-50%);width:auto;max-width:calc(100vw - 20px);padding:6px 9px;flex-direction:row;gap:3px}.side-menu-title{display:none}.side-menu a,.side-menu button{min-width:53px;min-height:48px}.side-menu a>span,.side-menu button>span{font-size:17px}.side-menu small{font-size:8px}.page{padding-bottom:82px}}
+
+
+/* Larger, clearer right-side navigation */
+.side-menu{
+  position:fixed;z-index:100;right:22px;top:50%;transform:translateY(-50%);
+  width:184px;padding:16px 13px;display:flex;flex-direction:column;gap:8px;
+  background:linear-gradient(160deg,#ffffff 0%,#f2fbff 55%,#f0fbf5 100%);
+  border:1px solid #cfe5e9;border-radius:22px;
+  box-shadow:0 16px 42px rgba(25,76,99,.20);backdrop-filter:blur(14px)
+}
+.side-menu-title{
+  display:flex;flex-direction:row;align-items:center;justify-content:flex-start;
+  gap:10px;padding:4px 9px 14px;margin-bottom:4px;
+  color:#087f70;border-bottom:1px solid #dcecef
+}
+.side-menu-title span{
+  display:grid;place-items:center;width:34px;height:34px;border-radius:11px;
+  background:linear-gradient(135deg,#d8f8ed,#dff2ff);font-size:22px
+}
+.side-menu-title b{
+  font-family: "Avenir Next",Avenir,"Segoe UI",sans-serif;
+  font-size:13px;font-weight:800;letter-spacing:1.6px
+}
+.side-menu a,.side-menu button{
+  min-height:54px;width:100%;box-sizing:border-box;padding:9px 12px;
+  border:1px solid transparent;border-radius:14px;background:transparent;
+  color:#254d63;text-decoration:none;display:flex;flex-direction:row;
+  align-items:center;justify-content:flex-start;gap:13px;cursor:pointer;
+  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;text-align:left
+}
+.side-menu a>span,.side-menu button>span{
+  display:grid;place-items:center;flex:0 0 34px;height:34px;
+  border-radius:11px;background:#e5f5f7;font-size:20px;line-height:1
+}
+.side-menu small{
+  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
+  font-size:14px;font-weight:700;letter-spacing:.15px;color:inherit
+}
+.side-menu a:nth-of-type(2)>span{background:#e3f3ff}
+.side-menu a:nth-of-type(3)>span{background:#fff2d7}
+.side-menu a:nth-of-type(4)>span{background:#e4f8e9}
+.side-menu a:nth-of-type(5)>span{background:#fce9e2}
+.side-menu button>span{background:#fff2d7}
+.side-menu a:hover,.side-menu button:hover,
+.side-menu a:focus-visible,.side-menu button:focus-visible{
+  background:#e5f8f1;border-color:#a9dfcf;color:#087f70;
+  outline:2px solid #8ad8c5;outline-offset:1px
+}
+@media(min-width:1100px){.page{margin-right:235px}}
+@media(max-width:1099px){
+  .side-menu{
+    top:auto;bottom:12px;left:50%;right:auto;transform:translateX(-50%);
+    width:auto;max-width:calc(100vw - 24px);padding:8px 10px;
+    flex-direction:row;gap:5px;border-radius:18px;overflow-x:auto
+  }
+  .side-menu-title{display:none}
+  .side-menu a,.side-menu button{width:auto;min-width:102px;min-height:52px;padding:7px 10px;gap:8px}
+  .side-menu a>span,.side-menu button>span{flex-basis:29px;height:29px;font-size:17px}
+  .side-menu small{font-size:12px;white-space:nowrap}
+  .page{padding-bottom:92px;margin-right:auto}
+}
+@media(max-width:520px){
+  .side-menu{justify-content:flex-start;max-width:calc(100vw - 16px)}
+  .side-menu a,.side-menu button{min-width:88px;padding:6px 8px;gap:6px}
+  .side-menu small{font-size:11px}
+}
