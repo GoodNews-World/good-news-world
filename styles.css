@@ -55,3 +55,14 @@ footer{border-top:1px solid var(--line);padding:22px 5vw;display:flex;justify-co
 .map-region-list{display:grid;gap:10px}.map-region-button{display:flex;align-items:center;gap:11px;text-align:left;padding:13px;border:1px solid var(--line);background:#fff;border-radius:12px;color:var(--ink);cursor:pointer}.map-region-button:hover{border-color:#9bc7ad;background:#f7fbf8}.region-icon{font-size:23px}.map-region-button b,.map-region-button small{display:block}.map-region-button b{font:700 12px Manrope}.map-region-button small{font-size:10px;color:#81928b;margin-top:4px}.region-arrow{margin-left:auto;color:var(--green);font-size:16px}.map-all-button{border:0;border-radius:10px;padding:12px;background:var(--green);color:white;font:700 11px 'DM Sans';cursor:pointer}.map-disclaimer{font-size:10px;line-height:1.55;color:#84948d;margin:13px 0 0}
 @media(max-width:760px){.world-map-layout{grid-template-columns:1fr}.map-region-list{grid-template-columns:1fr 1fr}.map-all-button{grid-column:1/-1}}
 @media(max-width:600px){.world-map-section{padding:18px 14px;margin:25px 0}.world-map-heading h2{font-size:22px}.map-label{font-size:14px}.map-region-list{grid-template-columns:1fr}.map-all-button{grid-column:auto}}
+
+/* Interactive rotating globe */
+.globe-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(220px,.8fr);gap:22px;align-items:center}
+.globe-panel{position:relative;min-height:410px;overflow:hidden;border-radius:22px;background:radial-gradient(ellipse at 50% 45%,#173e50 0%,#0b1d2b 58%,#07131f 100%);border:1px solid #244454;box-shadow:inset 0 0 55px rgba(79,190,164,.08)}
+#goodNewsGlobe{width:100%;height:410px;cursor:grab}
+#goodNewsGlobe:active{cursor:grabbing}
+.globe-hint{position:absolute;left:0;right:0;bottom:14px;text-align:center;color:#a6c6c8;font-size:9px;letter-spacing:1.3px;pointer-events:none}
+.globe-region-list{align-self:center}
+.globe-region-list .map-disclaimer{font-size:10px;line-height:1.65;color:var(--muted);margin:12px 2px 0}
+.globe-fallback{color:#d9eeeb;text-align:center;padding:90px 20px;font-size:13px}
+@media(max-width:760px){.globe-layout{grid-template-columns:1fr}.globe-panel{min-height:330px}#goodNewsGlobe{height:330px}.globe-region-list{width:100%}}

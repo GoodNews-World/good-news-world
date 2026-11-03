@@ -43,3 +43,7 @@ This build adds six sources to the existing NASA, UN News, ScienceDaily (three t
 - Fix The News
 
 All sources are requested through the existing public rss2json demo endpoint. Feed uptime, CORS/parser compatibility, and free-demo limits can vary. The quality filter still screens headlines and feed descriptions using keywords; more sources can increase volume but do not make the screening AI-powered or independently fact-checked. Region labels are broad publisher/source labels, not verified article locations.
+
+
+## Interactive rotating globe
+The map panel uses the open-source Globe.gl library loaded from its public CDN and a public Earth texture. It rotates automatically, supports drag-to-rotate and scroll-to-zoom, and shows a publisher-feed marker for the United States. The adjacent region buttons filter stories by the source labels currently available in RSS feeds. They do not represent verified event locations. The globe requires an internet connection to load its JavaScript library and texture; there is no API key or paid map subscription.

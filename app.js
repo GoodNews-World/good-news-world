@@ -235,5 +235,38 @@ $("clearFilters").addEventListener("click",()=>{
   $("savedShortcut").textContent="☆ Saved "+saved.length;render();
 });
 $("year").textContent=new Date().getFullYear();
+
+let newsGlobe = null;
+function initNewsGlobe() {
+  const mount = $("goodNewsGlobe");
+  if (!mount || typeof Globe !== "function") {
+    if (mount) mount.innerHTML = '<p class="globe-fallback">The 3D globe could not load. Check your internet connection and refresh the page.</p>';
+    return;
+  }
+  newsGlobe = Globe()(mount)
+    .globeImageUrl("https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg")
+    .bumpImageUrl("https://unpkg.com/three-globe/example/img/earth-topology.png")
+    .backgroundColor("rgba(0,0,0,0)")
+    .showAtmosphere(true)
+    .atmosphereColor("#74d9b0")
+    .atmosphereAltitude(0.16)
+    .pointsData([{lat:39.5,lng:-98.35,size:0.65,color:"#8df0b8",label:"United States publisher feed"}])
+    .pointLat(d=>d.lat).pointLng(d=>d.lng).pointRadius(d=>d.size)
+    .pointColor(d=>d.color).pointAltitude(0.025)
+    .pointLabel(d=>d.label)
+    .width(mount.clientWidth || 620)
+    .height(mount.clientHeight || 420);
+  newsGlobe.controls().autoRotate = true;
+  newsGlobe.controls().autoRotateSpeed = 0.45;
+  newsGlobe.controls().enableDamping = true;
+  newsGlobe.controls().dampingFactor = 0.08;
+  const resize = () => {
+    if (newsGlobe) newsGlobe.width(mount.clientWidth || 620).height(mount.clientHeight || 420);
+  };
+  if ("ResizeObserver" in window) new ResizeObserver(resize).observe(mount);
+  else window.addEventListener("resize", resize);
+}
+initNewsGlobe();
+
 loadFeeds();
 setInterval(loadFeeds,30*60*1000);
