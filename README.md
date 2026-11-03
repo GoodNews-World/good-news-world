@@ -31,3 +31,15 @@ The Daily Good News Briefing displays up to five highlights from the existing ra
 
 ## World Map (source coverage)
 The map section visualizes the publisher-feed regions currently configured in `app.js` and lets visitors filter stories by those regions. It intentionally does not infer the country where an individual article's event occurred. The current feeds label NASA as United States and UN News, ScienceDaily, and Mongabay as International; country-level story mapping should wait until article location metadata is reliably available. The map illustration is local SVG and requires no paid map API or external map tiles.
+
+
+## Expanded RSS sources
+This build adds six sources to the existing NASA, UN News, ScienceDaily (three topic feeds), and Mongabay sources:
+- Good News Network
+- Positive News
+- Reasons to be Cheerful
+- Our World in Data
+- Happy Eco News
+- Fix The News
+
+All sources are requested through the existing public rss2json demo endpoint. Feed uptime, CORS/parser compatibility, and free-demo limits can vary. The quality filter still screens headlines and feed descriptions using keywords; more sources can increase volume but do not make the screening AI-powered or independently fact-checked. Region labels are broad publisher/source labels, not verified article locations.

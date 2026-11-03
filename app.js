@@ -6,7 +6,13 @@ const FEEDS = [
   {name:"ScienceDaily · Top Science", url:"https://www.sciencedaily.com/rss/top/science.xml", category:"Science", region:"International"},
   {name:"ScienceDaily · Health", url:"https://www.sciencedaily.com/rss/top/health.xml", category:"Health", region:"International"},
   {name:"ScienceDaily · Environment", url:"https://www.sciencedaily.com/rss/top/environment.xml", category:"Environment", region:"International"},
-  {name:"Mongabay", url:"https://news.mongabay.com/feed/", category:"Environment", region:"International"}
+  {name:"Mongabay", url:"https://news.mongabay.com/feed/", category:"Environment", region:"International"},
+  {name:"Good News Network", url:"https://www.goodnewsnetwork.org/feed/", category:"Humanity", region:"International"},
+  {name:"Positive News", url:"https://www.positive.news/feed/", category:"Humanity", region:"International"},
+  {name:"Reasons to be Cheerful", url:"https://reasonstobecheerful.world/feed/", category:"Progress", region:"International"},
+  {name:"Our World in Data", url:"https://ourworldindata.org/atom.xml", category:"Progress", region:"International"},
+  {name:"Happy Eco News", url:"https://happyeconews.com/feed/", category:"Environment", region:"International"},
+  {name:"Fix The News", url:"https://substack.fixthenews.com/feed", category:"Progress", region:"International"}
 ];
 
 const POSITIVE = [
