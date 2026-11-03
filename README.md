@@ -51,3 +51,7 @@ The map panel uses the open-source Globe.gl library loaded from its public CDN a
 
 ## Colorful and user-friendly visual refresh
 This version adds a brighter turquoise, sky-blue, green, sunshine-yellow and coral-inspired palette; clearer visual hierarchy; softer card styling; more visible focus states for keyboard users; and reduced-motion support. It preserves the feed, category filters, Top 10, briefing and interactive globe. No paid service or API key is added.
+
+
+## iPhone app-style update
+This version adds an iPhone-friendly fixed bottom navigation, larger touch targets, single-column story cards, a simplified mobile globe layout, and a custom home-screen icon. Safari uses `app-icon.png` as the home-screen icon when the site is added to the Home Screen. This remains a free website/PWA-style shortcut, not an App Store native app.

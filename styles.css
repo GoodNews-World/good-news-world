@@ -207,3 +207,82 @@ a:hover{color:#0a9c85}
   .side-menu a,.side-menu button{min-width:88px;padding:6px 8px;gap:6px}
   .side-menu small{font-size:11px}
 }
+
+
+/* iPhone-first app layout */
+@media(max-width:760px){
+  body{padding-bottom:94px}
+  .topbar{padding:12px 16px;gap:10px}
+  .brand{font-size:15px}
+  .top-actions .updated-label,.top-actions .live-dot{display:none}
+  .saved-shortcut{padding:9px 12px;font-size:13px}
+  .page{width:auto;max-width:none;margin:0;padding:14px 14px 28px}
+  .hero{min-height:0;padding:28px 20px;border-radius:22px;display:block}
+  .hero h1{font-size:clamp(30px,8vw,42px);line-height:1.06}
+  .hero-subtitle{font-size:15px;line-height:1.5}
+  .hero-art{display:none}
+  .searchbox{margin-top:18px}
+  .world-map-section,.top10-section,.briefing-section,.controls{margin-top:26px}
+  .world-map-heading,.top10-heading,.briefing-heading,.section-heading{gap:10px;align-items:flex-start}
+  .world-map-heading h2,.top10-heading h2,.briefing-heading h2,.section-heading h2{font-size:23px;line-height:1.15}
+  .world-map-subtitle,.top10-subtitle,.briefing-subtitle{font-size:13px;line-height:1.45}
+  .map-legend{font-size:10px;white-space:nowrap}
+  .globe-layout{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+  .globe-panel{width:100%;min-height:0;height:310px;border-radius:20px}
+  #goodNewsGlobe{height:310px!important;width:100%}
+  .globe-hint{font-size:9px;padding:7px 4px}
+  .map-region-controls{display:flex;flex-wrap:wrap;gap:8px}
+  .map-region-button,.map-all-button{min-height:42px;padding:10px 14px;font-size:13px}
+  .story-grid{grid-template-columns:minmax(0,1fr);gap:13px;margin-top:15px}
+  .story-card{min-height:0;display:grid;grid-template-columns:112px minmax(0,1fr);align-items:stretch;border-radius:16px}
+  .story-card .card-visual{min-height:138px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;padding:8px;font-size:34px}
+  .story-card .card-category{font-size:9px;letter-spacing:.6px}
+  .story-card .card-body{min-width:0;padding:11px;display:flex;flex-direction:column;gap:7px}
+  .story-card h3{font-size:15px;line-height:1.25;overflow-wrap:anywhere;margin:0}
+  .story-card p{font-size:12px;line-height:1.4;margin:0}
+  .story-card .card-meta{font-size:10px;flex-wrap:wrap;gap:5px}
+  .story-card .card-bottom{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between}
+  .story-card .source{font-size:10px}
+  .story-card .read-link{font-size:10px}
+  .story-card .card-actions{display:flex;align-items:center;gap:6px}
+  .briefing-list{gap:10px}
+  .briefing-item{padding:13px;border-radius:15px}
+  .filter-row{gap:10px}
+  .chips{display:flex;flex-wrap:nowrap;overflow-x:auto;padding-bottom:5px;max-width:100%}
+  .chip{flex:0 0 auto;min-height:40px;padding:9px 13px;font-size:12px}
+  #storyGrid{grid-template-columns:minmax(0,1fr);gap:13px}
+  .side-menu{
+    position:fixed;z-index:1000;left:0;right:0;bottom:0;top:auto;
+    transform:none;width:100%;max-width:none;box-sizing:border-box;
+    display:flex;flex-direction:row;justify-content:space-around;align-items:stretch;
+    gap:0;padding:7px 4px calc(7px + env(safe-area-inset-bottom));
+    border:0;border-top:1px solid rgba(164,205,221,.45);border-radius:18px 18px 0 0;
+    background:rgba(5,24,53,.97);box-shadow:0 -8px 26px rgba(4,20,43,.22);
+    backdrop-filter:blur(16px);overflow:visible
+  }
+  .side-menu-title{display:none}
+  .side-menu a,.side-menu button{
+    flex:1 1 0;min-width:0;width:auto;min-height:58px;padding:5px 1px;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    gap:4px;border:0;border-radius:12px;background:transparent;color:#dcecff;
+    text-align:center
+  }
+  .side-menu a>span,.side-menu button>span{
+    display:grid;place-items:center;flex:0 0 29px;width:29px;height:29px;
+    background:transparent;border-radius:9px;font-size:21px;line-height:1
+  }
+  .side-menu small{font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;font-size:10px;font-weight:700;letter-spacing:0;color:#dcecff;white-space:nowrap}
+  .side-menu a:hover,.side-menu button:hover,.side-menu a:focus-visible,.side-menu button:focus-visible{
+    background:rgba(48,143,190,.22);outline:1px solid rgba(124,208,245,.65);outline-offset:-1px
+  }
+  .side-menu a:active,.side-menu button:active{background:#14517a}
+  footer{padding-bottom:12px}
+}
+@media(max-width:390px){
+  .side-menu a,.side-menu button{gap:2px}
+  .side-menu small{font-size:9px}
+  .story-card{grid-template-columns:88px minmax(0,1fr)}
+  .story-card .card-visual{min-height:145px}
+  .story-card h3{font-size:14px}
+  .globe-panel,#goodNewsGlobe{height:280px!important}
+}

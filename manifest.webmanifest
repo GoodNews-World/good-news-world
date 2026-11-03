@@ -1,0 +1,16 @@
+{
+  "name": "Good News World",
+  "short_name": "Good News",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#071b3c",
+  "theme_color": "#071b3c",
+  "icons": [
+    {
+      "src": "app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
