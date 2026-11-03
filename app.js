@@ -125,18 +125,11 @@ async function loadFeeds() {
     $("emptyState").querySelector("p").textContent="Feeds may be temporarily unavailable, or recent articles did not meet the positive-topic threshold. Try Refresh.";
   }
 }
-function render() {
-  const query=$("searchInput").value.toLowerCase().trim(), region=$("countryFilter").value;
-  const list=stories.filter(s=>
-    (activeCategory==="All"||s.category===activeCategory) &&
-    (region==="All"||s.region===region) &&
-    (!query||[s.title,s.description,s.source,s.region,s.category].join(" ").toLowerCase().includes(query)) &&
-    (!savedOnly||saved.includes(s.id))
-  );
+function renderCards(list, target, ranked=false) {
   const icons={Science:"🔬",Environment:"🌱",Health:"💚",Humanity:"❤️",Animals:"🐾",Progress:"🌍"};
-  $("storyGrid").innerHTML=list.map(s=>`
-    <article class="story-card">
-      <div class="card-visual" style="--visual:#e8f2ed"><span class="card-category">${safe(s.category.toUpperCase())}</span><span>${icons[s.category]||"🌎"}</span></div>
+  target.innerHTML=list.map((s,index)=>`
+    <article class="story-card ${ranked?"ranked-card":""}">
+      <div class="card-visual" style="--visual:#e8f2ed"><span class="card-category">${safe(s.category.toUpperCase())}</span><span>${icons[s.category]||"🌎"}</span>${ranked?`<span class="rank-number">#${index+1}</span>`:""}</div>
       <div class="card-body">
         <div class="card-meta"><span>${safe(s.region)}</span><span>${dateLabel(s.date)}</span></div>
         <h3>${safe(s.title)}</h3><p>${safe(s.description||"Open the original publisher article for details.")}</p>
@@ -146,6 +139,19 @@ function render() {
         </div></div>
       </div>
     </article>`).join("");
+}
+function render() {
+  const ranked=[...stories].sort((a,b)=>b.score-a.score||b.positive-a.positive||b.timestamp-a.timestamp).slice(0,10);
+  renderCards(ranked,$("top10Grid"),true);
+  $("top10Note").textContent=ranked.length?`${ranked.length} stories ranked from the latest feed. Scores favor stronger positive signals, with newer stories breaking ties.`:"Top 10 will appear when qualifying stories are available.";
+  const query=$("searchInput").value.toLowerCase().trim(), region=$("countryFilter").value;
+  const list=stories.filter(s=>
+    (activeCategory==="All"||s.category===activeCategory) &&
+    (region==="All"||s.region===region) &&
+    (!query||[s.title,s.description,s.source,s.region,s.category].join(" ").toLowerCase().includes(query)) &&
+    (!savedOnly||saved.includes(s.id))
+  );
+  renderCards(list,$("storyGrid"));
   $("emptyState").hidden=list.length>0; $("storyGrid").hidden=list.length===0;
   $("savedCount").textContent=saved.length;
   $("feedTitle").textContent=savedOnly?"Your saved stories":"Today's bright spots";
@@ -162,7 +168,7 @@ $("categoryFilters").addEventListener("click",event=>{
 });
 $("searchInput").addEventListener("input",render);
 $("countryFilter").addEventListener("change",render);
-$("storyGrid").addEventListener("click",event=>{
+document.addEventListener("click",event=>{
   const button=event.target.closest("[data-save]");if(!button)return;
   const id=decodeURIComponent(button.dataset.save);
   saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];
