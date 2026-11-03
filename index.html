@@ -9,7 +9,7 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#" aria-label="Good News World home">
+    <a class="brand" href="#home" aria-label="Good News World home">
       <span class="brand-mark">✦</span>
       <span>GOOD NEWS <b>WORLD</b></span>
     </a>
@@ -19,7 +19,18 @@
     </div>
   </header>
 
-  <main class="page">
+
+  <aside class="side-menu" aria-label="Quick navigation">
+    <div class="side-menu-title"><span>✦</span><b>EXPLORE</b></div>
+    <a href="#home"><span>⌂</span><small>Home</small></a>
+    <a href="#worldMapTitle"><span>🌎</span><small>World</small></a>
+    <a href="#top10Title"><span>🏆</span><small>Top 10</small></a>
+    <a href="#briefingTitle"><span>☀️</span><small>Briefing</small></a>
+    <a href="#feedTitle"><span>📰</span><small>News feed</small></a>
+    <button type="button" id="sideSavedShortcut"><span>☆</span><small>Saved</small></button>
+  </aside>
+
+  <main class="page" id="home">
     <section class="hero">
       <div class="hero-copy">
         <p class="eyebrow">GOOD THINGS ARE HAPPENING</p>

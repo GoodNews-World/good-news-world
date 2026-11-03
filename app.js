@@ -270,3 +270,6 @@ initNewsGlobe();
 
 loadFeeds();
 setInterval(loadFeeds,30*60*1000);
+
+
+document.getElementById("sideSavedShortcut")?.addEventListener("click", () => { document.getElementById("savedShortcut")?.click(); });
