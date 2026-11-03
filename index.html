@@ -14,7 +14,7 @@
       <span>GOOD NEWS <b>WORLD</b></span>
     </a>
     <div class="top-actions">
-      <span class="live-dot"></span><span class="updated-label">A brighter view of the world</span>
+      <span class="live-dot"></span><span class="updated-label" id="updateStatus">Connecting to publisher feeds…</span>
       <button id="savedShortcut" class="saved-shortcut" type="button">☆ Saved <span id="savedCount">0</span></button>
     </div>
   </header>
@@ -42,7 +42,7 @@
     <section class="controls" aria-label="Story filters">
       <div class="section-heading">
         <div><p class="eyebrow dark">THE GOOD NEWS FEED</p><h2 id="feedTitle">Today's bright spots</h2></div>
-        <span class="demo-badge">STARTER PREVIEW</span>
+        <span class="demo-badge">LIVE FEED · TOPIC FILTER</span>
       </div>
       <div class="filter-row">
         <div id="categoryFilters" class="chips">
@@ -60,6 +60,7 @@
       </div>
     </section>
 
+    <div class="feed-tools"><span id="resultCount">Fetching articles…</span><button id="refreshButton" class="refresh-button" type="button">↻ Refresh feed</button></div>
     <section id="storyGrid" class="story-grid" aria-live="polite"></section>
     <section id="emptyState" class="empty-state" hidden>
       <div>🔎</div><h3>No stories found</h3><p>Try another search or choose a different category.</p>
@@ -68,12 +69,13 @@
 
     <section class="daily-note">
       <div class="note-icon">☀</div>
-      <div><h3>Good news deserves to travel.</h3><p>This is your starter edition. Next, we'll connect trusted news feeds so the stories update automatically.</p></div>
+      <div><h3>Good news deserves to travel.</h3><p>Articles are collected from publisher feeds. Automated topic filtering can make mistakes; open the original reporting for context.</p></div>
     </section>
   </main>
 
   <footer><span>GOOD NEWS WORLD</span><span>Curiosity • Context • Hope</span><span>© <span id="year"></span></span></footer>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <p class="source-note">Stories are selected using topic keywords, not independently fact-checked. Publisher attribution and original links are provided.</p>
   <script src="app.js"></script>
 </body>
 </html>
