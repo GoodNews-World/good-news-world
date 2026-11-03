@@ -1,0 +1,172 @@
+# Good News World — starter app
+
+This is the first front-end prototype for Good News World. It runs locally in a browser and is responsive for desktop and mobile.
+
+## What works now
+- Responsive home page and story cards
+- Search across sample headlines, topics, and countries
+- Category and country filters
+- Save/unsave stories using browser local storage
+- Saved stories view
+
+## Important: sample content
+The six cards are **illustrative placeholders**, not current news reports. This first version is a design and interaction prototype. The next development step is connecting permitted news feeds, adding source/date validation, and replacing the sample cards with real articles.
+
+## Run it on your Mac
+1. Download and unzip `good_news_world_starter.zip`.
+2. Open the `good_news_world` folder.
+3. Double-click `index.html` to open it in Safari or Chrome.
+
+No installation or account is needed to preview the prototype.
+
+## Next build milestone
+Connect a small set of reputable, legally usable RSS/news sources through a server-side feed collector. Then add:
+- article deduplication and publication-date checks
+- positive/constructive story classification with transparent criteria
+- short summaries that preserve caveats
+- original-source links and attribution
+- a scheduled refresh
+
+Do not present generated summaries as original reporting. Keep the publisher, headline, date, and source link visible.
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123c35">
+  <title>Good News World</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Good News World home">
+      <span class="brand-mark">✦</span>
+      <span>GOOD NEWS <b>WORLD</b></span>
+    </a>
+    <div class="top-actions">
+      <span class="live-dot"></span><span class="updated-label">A brighter view of the world</span>
+      <button id="savedShortcut" class="saved-shortcut" type="button">☆ Saved <span id="savedCount">0</span></button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">GOOD THINGS ARE HAPPENING</p>
+        <h1>A brighter view<br>of what's happening.</h1>
+        <p class="hero-subtitle">Discover hopeful discoveries, acts of kindness, and positive progress from around the world.</p>
+        <label class="searchbox">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="Search topics, countries, or stories…" autocomplete="off">
+          <kbd>SEARCH</kbd>
+        </label>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="globe">🌎</div>
+        <span class="spark spark-a">✦</span><span class="spark spark-b">✧</span><span class="spark spark-c">✦</span>
+        <div class="art-note"><span>✦</span> A little more hope, every day.</div>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Story filters">
+      <div class="section-heading">
+        <div><p class="eyebrow dark">THE GOOD NEWS FEED</p><h2 id="feedTitle">Today's bright spots</h2></div>
+        <span class="demo-badge">STARTER PREVIEW</span>
+      </div>
+      <div class="filter-row">
+        <div id="categoryFilters" class="chips">
+          <button class="chip active" data-category="All">All stories</button>
+          <button class="chip" data-category="Science">🔬 Science</button>
+          <button class="chip" data-category="Environment">🌱 Environment</button>
+          <button class="chip" data-category="Health">💚 Health</button>
+          <button class="chip" data-category="Humanity">❤️ Humanity</button>
+          <button class="chip" data-category="Animals">🐾 Animals</button>
+          <button class="chip" data-category="Progress">🌍 Progress</button>
+        </div>
+        <select id="countryFilter" aria-label="Filter by country">
+          <option value="All">All countries</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="storyGrid" class="story-grid" aria-live="polite"></section>
+    <section id="emptyState" class="empty-state" hidden>
+      <div>🔎</div><h3>No stories found</h3><p>Try another search or choose a different category.</p>
+      <button id="clearFilters" class="button-primary">Clear filters</button>
+    </section>
+
+    <section class="daily-note">
+      <div class="note-icon">☀</div>
+      <div><h3>Good news deserves to travel.</h3><p>This is your starter edition. Next, we'll connect trusted news feeds so the stories update automatically.</p></div>
+    </section>
+  </main>
+
+  <footer><span>GOOD NEWS WORLD</span><span>Curiosity • Context • Hope</span><span>© <span id="year"></span></span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{--ink:#173b35;--muted:#6c807b;--green:#1d6655;--mint:#e8f2ed;--cream:#f7f8f3;--line:#e4ebe5;--gold:#e8b85b}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",sans-serif}
+.topbar{height:76px;padding:0 max(5vw,24px);display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--line)}
+.brand{display:flex;gap:11px;align-items:center;text-decoration:none;color:var(--ink);font-family:Manrope,sans-serif;font-size:14px;font-weight:800;letter-spacing:1.4px}.brand b{color:var(--green)}
+.brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--green);color:#fff;font-size:21px}
+.top-actions{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px}.live-dot{width:8px;height:8px;border-radius:50%;background:#69b98b}.saved-shortcut{margin-left:17px;border:1px solid var(--line);background:white;border-radius:30px;padding:9px 14px;color:var(--ink);font:600 12px inherit;cursor:pointer}
+.page{max-width:1180px;margin:auto;padding:38px 28px 60px}
+.hero{min-height:340px;border-radius:24px;background:linear-gradient(115deg,#123d35,#1d6655 68%,#39816a);color:#fff;padding:48px 6%;display:flex;justify-content:space-between;align-items:center;overflow:hidden;position:relative}
+.hero-copy{max-width:570px;position:relative;z-index:2}.eyebrow{font-size:10px;letter-spacing:2.3px;font-weight:700;color:#b8ddc9;margin:0 0 16px}.hero h1{font:800 clamp(38px,5vw,58px)/1.08 Manrope,sans-serif;letter-spacing:-2px;margin:0 0 15px}.hero-subtitle{color:#d4e7dd;max-width:480px;line-height:1.65;font-size:15px;margin:0 0 25px}
+.searchbox{display:flex;align-items:center;gap:12px;background:#fff;border-radius:12px;padding:0 15px;width:min(100%,490px);height:52px;color:#789089}.searchbox>span{font-size:25px}.searchbox input{border:0;outline:0;flex:1;min-width:0;font:14px "DM Sans";color:var(--ink)}.searchbox kbd{font-size:9px;letter-spacing:1px;color:#8b9d96;border:1px solid #e6ece8;border-radius:5px;padding:5px 7px}
+.hero-art{width:310px;height:260px;position:relative;display:grid;place-items:center;flex-shrink:0}.globe{font-size:125px;filter:drop-shadow(0 16px 15px #082b2766);z-index:2}.orbit{position:absolute;border:1px solid #a9d4bd55;border-radius:50%;width:260px;height:120px;transform:rotate(-24deg)}.orbit-two{transform:rotate(54deg);width:220px;height:155px}.spark{position:absolute;color:#f5d68d;font-size:28px}.spark-a{top:25px;right:35px}.spark-b{left:20px;top:85px;font-size:35px}.spark-c{right:55px;bottom:45px}.art-note{position:absolute;bottom:0;right:0;background:#ffffff1a;border:1px solid #ffffff30;border-radius:30px;padding:10px 15px;font-size:11px;color:#e2f2e8;backdrop-filter:blur(8px)}.art-note span{color:#f5d68d;margin-right:5px}
+.controls{margin:43px 0 20px}.section-heading{display:flex;align-items:end;justify-content:space-between}.eyebrow.dark{color:#6d9984;margin-bottom:8px}.section-heading h2{font:750 27px Manrope;margin:0;letter-spacing:-.7px}.demo-badge{background:#fff3d8;color:#94691d;border-radius:20px;padding:7px 11px;font-size:9px;font-weight:700;letter-spacing:1px}
+.filter-row{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:22px}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{border:1px solid var(--line);background:#fff;color:#58716a;border-radius:25px;padding:9px 13px;font:600 11px "DM Sans";cursor:pointer;transition:.2s}.chip:hover,.chip.active{background:var(--green);border-color:var(--green);color:white}
+select{border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 13px;color:#58716a;font:600 11px "DM Sans";outline:none}
+.story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}.story-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-height:290px;transition:transform .2s,box-shadow .2s}.story-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px #153d3010}.card-visual{height:116px;display:grid;place-items:center;font-size:45px;position:relative;background:var(--visual,#e8f2ed)}.card-visual:after{content:"";position:absolute;width:90px;height:90px;border:1px solid #ffffff70;border-radius:50%}.card-category{position:absolute;left:14px;top:13px;background:#ffffffdf;border-radius:20px;padding:6px 9px;font-size:9px;font-weight:700;color:var(--green);letter-spacing:.5px}
+.card-body{padding:17px 17px 15px;display:flex;flex-direction:column;flex:1}.card-meta{display:flex;justify-content:space-between;color:#8a9a94;font-size:10px;margin-bottom:9px}.card-body h3{font:700 16px/1.35 Manrope;margin:0 0 9px;letter-spacing:-.3px}.card-body p{font-size:12px;line-height:1.6;color:#71827b;margin:0 0 15px}.card-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid #eef2ee}.source{font-size:10px;color:#82938c}.card-actions{display:flex;gap:7px}.icon-button{border:1px solid var(--line);background:#fff;border-radius:8px;width:31px;height:29px;cursor:pointer;color:var(--green);font-size:15px}.icon-button.saved{background:var(--mint);border-color:#cfe2d6}.read-link{font-size:10px;font-weight:700;color:var(--green);text-decoration:none}.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}.empty-state>div{font-size:36px}.empty-state h3{color:var(--ink);font:700 20px Manrope;margin:10px}.empty-state p{font-size:13px}.button-primary{background:var(--green);color:#fff;border:0;border-radius:9px;padding:11px 17px;margin-top:10px;cursor:pointer}
+.daily-note{margin-top:35px;border:1px solid #dce9df;background:#edf5ee;border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:16px}.note-icon{width:42px;height:42px;border-radius:13px;background:#fff;display:grid;place-items:center;font-size:22px}.daily-note h3{font:700 14px Manrope;margin:0 0 5px}.daily-note p{font-size:11px;color:#6f8479;margin:0;line-height:1.5}
+footer{border-top:1px solid var(--line);padding:22px 5vw;display:flex;justify-content:space-between;color:#8b9a94;font-size:9px;letter-spacing:1px}footer span:first-child{font-weight:800;color:var(--green)}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;background:#173b35;color:white;padding:11px 17px;border-radius:30px;font-size:12px;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:850px){.hero-art{width:220px;transform:scale(.85);margin-right:-20px}.story-grid{grid-template-columns:repeat(2,1fr)}.filter-row{align-items:flex-start;flex-direction:column}.updated-label{display:none}}
+@media(max-width:600px){.topbar{height:64px;padding:0 17px}.top-actions{gap:0}.saved-shortcut{margin-left:0}.page{padding:18px 15px 38px}.hero{padding:31px 23px;min-height:0}.hero h1{font-size:39px}.hero-subtitle{font-size:13px}.hero-art{display:none}.searchbox{height:49px}.section-heading h2{font-size:22px}.demo-badge{font-size:8px}.story-grid{grid-template-columns:1fr;gap:13px}.card-visual{height:105px}.daily-note{padding:16px}.daily-note p{font-size:10px}footer{padding:18px 15px;font-size:8px}}
+
+const stories = [
+  {id:1,category:"Environment",country:"Costa Rica",flag:"🇨🇷",emoji:"🌳",tone:"#e6f2e5",date:"Illustrative example",source:"Good News World sample",title:"A community effort helps restore a thriving forest",summary:"A sample story card showing how a verified conservation success could appear in the feed. Live articles will be connected in the next build.",tags:"forest restoration biodiversity conservation"},
+  {id:2,category:"Science",country:"Japan",flag:"🇯🇵",emoji:"🔬",tone:"#e8eef9",date:"Illustrative example",source:"Good News World sample",title:"Researchers make progress on cleaner energy materials",summary:"This placeholder demonstrates the science category. Once connected to news feeds, the app will show the publisher's real headline and a concise summary.",tags:"science research energy technology"},
+  {id:3,category:"Health",country:"United Kingdom",flag:"🇬🇧",emoji:"🩺",tone:"#fcebe8",date:"Illustrative example",source:"Good News World sample",title:"A health initiative expands access to early screening",summary:"A sample of the kind of measurable health improvement the app aims to surface, with context and a link to the original reporting.",tags:"health medicine screening care"},
+  {id:4,category:"Humanity",country:"India",flag:"🇮🇳",emoji:"🤝",tone:"#f9efdc",date:"Illustrative example",source:"Good News World sample",title:"Local volunteers create new support for families",summary:"A placeholder for stories about practical kindness, community support, and people helping one another.",tags:"humanity volunteers community kindness"},
+  {id:5,category:"Animals",country:"South Africa",flag:"🇿🇦",emoji:"🐘",tone:"#eaf0df",date:"Illustrative example",source:"Good News World sample",title:"Conservation teams work to protect vulnerable wildlife",summary:"A sample wildlife story card. Real stories will be screened for evidence, dates, and source quality before appearing here.",tags:"animals wildlife conservation"},
+  {id:6,category:"Progress",country:"Brazil",flag:"🇧🇷",emoji:"🏫",tone:"#e8f2ef",date:"Illustrative example",source:"Good News World sample",title:"A new learning program opens doors for young people",summary:"A placeholder for constructive progress in education, opportunity, and community development.",tags:"progress education opportunity youth"}
+];
+let activeCategory="All", savedOnly=false;
+let saved = JSON.parse(localStorage.getItem("gnw_saved") || "[]");
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function render(){
+  const query=$("searchInput").value.trim().toLowerCase(), country=$("countryFilter").value;
+  const filtered=stories.filter(s=>{
+    const text=[s.title,s.summary,s.category,s.country,s.tags].join(" ").toLowerCase();
+    return (activeCategory==="All"||s.category===activeCategory)&&(country==="All"||s.country===country)&&(!query||text.includes(query))&&(!savedOnly||saved.includes(s.id));
+  });
+  $("storyGrid").innerHTML=filtered.map(s=>`<article class="story-card">
+    <div class="card-visual" style="--visual:${s.tone}"><span class="card-category">${esc(s.category.toUpperCase())}</span><span>${s.emoji}</span></div>
+    <div class="card-body"><div class="card-meta"><span>${s.flag} ${esc(s.country)}</span><span>${esc(s.date)}</span></div>
+    <h3>${esc(s.title)}</h3><p>${esc(s.summary)}</p>
+    <div class="card-bottom"><span class="source">${esc(s.source)}</span><div class="card-actions"><button class="icon-button ${saved.includes(s.id)?"saved":""}" data-save="${s.id}" aria-label="Save story">${saved.includes(s.id)?"★":"☆"}</button><a class="read-link" href="#" data-preview="${s.id}">DETAILS ↗</a></div></div></div></article>`).join("");
+  $("emptyState").hidden=filtered.length!==0;
+  $("storyGrid").hidden=filtered.length===0;
+  $("savedCount").textContent=saved.length;
+  $("feedTitle").textContent=savedOnly?"Your saved stories":"Today's bright spots";
+}
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2100)}
+$("categoryFilters").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(!b)return;activeCategory=b.dataset.category;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));render()});
+$("searchInput").addEventListener("input",render);
+$("countryFilter").addEventListener("change",render);
+$("storyGrid").addEventListener("click",e=>{
+  const save=e.target.closest("[data-save]");if(save){const id=Number(save.dataset.save);saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];localStorage.setItem("gnw_saved",JSON.stringify(saved));render();toast(saved.includes(id)?"Story saved":"Removed from saved");}
+  const detail=e.target.closest("[data-preview]");if(detail){e.preventDefault();const s=stories.find(x=>x.id===Number(detail.dataset.preview));toast("Preview story only — live sources are coming next.");}
+});
+$("savedShortcut").addEventListener("click",()=>{savedOnly=!savedOnly;$("savedShortcut").innerHTML=savedOnly?"← All stories":`☆ Saved <span id="savedCount">${saved.length}</span>`;render()});
+$("clearFilters").addEventListener("click",()=>{activeCategory="All";savedOnly=false;$("searchInput").value="";$("countryFilter").value="All";document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x.dataset.category==="All"));$("savedShortcut").innerHTML=`☆ Saved <span id="savedCount">${saved.length}</span>`;render()});
+const countries=[...new Set(stories.map(s=>s.country))].sort();countries.forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;$("countryFilter").append(o)});
+$("year").textContent=new Date().getFullYear();render();
