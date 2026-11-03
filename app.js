@@ -140,9 +140,32 @@ function renderCards(list, target, ranked=false) {
       </div>
     </article>`).join("");
 }
+function renderBriefing(ranked) {
+  const date = new Date();
+  $("briefingDate").textContent = date.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+  const highlights = ranked.slice(0,5);
+  const list = $("briefingList");
+  if (!highlights.length) {
+    list.innerHTML = '<p class="briefing-loading">No qualifying stories are available yet. Try refreshing the news feed.</p>';
+    return;
+  }
+  list.innerHTML = highlights.map((story,index) => {
+    const detail = story.description || "Open the original publisher article for the full story.";
+    return `<article class="briefing-item">
+      <span class="briefing-number">${index+1}</span>
+      <div class="briefing-copy">
+        <span class="briefing-category">${safe(story.category)} · ${safe(story.source)} · ${dateLabel(story.date)}</span>
+        <h3>${safe(story.title)}</h3>
+        <p>${safe(detail.slice(0,220))}${detail.length>220?"…":""}</p>
+        <a href="${safe(story.link)}" target="_blank" rel="noopener noreferrer">Read the original story ↗</a>
+      </div>
+    </article>`;
+  }).join("");
+}
 function render() {
   const ranked=[...stories].sort((a,b)=>b.score-a.score||b.positive-a.positive||b.timestamp-a.timestamp).slice(0,10);
   renderCards(ranked,$("top10Grid"),true);
+  renderBriefing(ranked);
   $("top10Note").textContent=ranked.length?`${ranked.length} stories ranked from the latest feed. Scores favor stronger positive signals, with newer stories breaking ties.`:"Top 10 will appear when qualifying stories are available.";
   const query=$("searchInput").value.toLowerCase().trim(), region=$("countryFilter").value;
   const list=stories.filter(s=>
