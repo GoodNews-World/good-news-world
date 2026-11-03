@@ -340,3 +340,9 @@ a:hover{color:#0a9c85}
   .discovery-panel{display:none}
   .page{display:block}
 }
+
+/* Good News World newsroom identity */
+.site-banner{width:100%;background:#061b3b;line-height:0;overflow:hidden}
+.site-banner img{display:block;width:100%;height:auto;max-height:300px;object-fit:cover;object-position:center}
+.brand-icon{width:42px;height:42px;border-radius:11px;object-fit:cover;box-shadow:0 3px 10px rgba(5,28,62,.18)}
+@media(max-width:600px){.site-banner img{max-height:150px;object-fit:cover}.brand-icon{width:36px;height:36px}}
