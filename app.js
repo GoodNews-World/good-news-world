@@ -166,6 +166,8 @@ function render() {
   const ranked=[...stories].sort((a,b)=>b.score-a.score||b.positive-a.positive||b.timestamp-a.timestamp).slice(0,10);
   renderCards(ranked,$("top10Grid"),true);
   renderBriefing(ranked);
+  $("usStoryCount").textContent = `${stories.filter(s=>s.region==="United States").length} matching stories`;
+  $("internationalStoryCount").textContent = `${stories.filter(s=>s.region==="International").length} matching stories`;
   $("top10Note").textContent=ranked.length?`${ranked.length} stories ranked from the latest feed. Scores favor stronger positive signals, with newer stories breaking ties.`:"Top 10 will appear when qualifying stories are available.";
   const query=$("searchInput").value.toLowerCase().trim(), region=$("countryFilter").value;
   const list=stories.filter(s=>
@@ -191,6 +193,24 @@ $("categoryFilters").addEventListener("click",event=>{
 });
 $("searchInput").addEventListener("input",render);
 $("countryFilter").addEventListener("change",render);
+document.querySelectorAll("[data-map-region]").forEach(button=>button.addEventListener("click",()=>{
+  savedOnly=false;
+  $("savedShortcut").textContent="☆ Saved "+saved.length;
+  $("countryFilter").value=button.dataset.mapRegion;
+  document.querySelectorAll(".chip").forEach(chip=>chip.classList.toggle("active",chip.dataset.category==="All"));
+  activeCategory="All";
+  render();
+  $("feedTitle").textContent=button.dataset.mapRegion+" good news";
+  $("storyGrid").scrollIntoView({behavior:"smooth",block:"start"});
+}));
+$("showAllRegions").addEventListener("click",()=>{
+  $("countryFilter").value="All";activeCategory="All";savedOnly=false;
+  $("searchInput").value="";
+  $("savedShortcut").textContent="☆ Saved "+saved.length;
+  document.querySelectorAll(".chip").forEach(chip=>chip.classList.toggle("active",chip.dataset.category==="All"));
+  render();
+  $("storyGrid").scrollIntoView({behavior:"smooth",block:"start"});
+});
 document.addEventListener("click",event=>{
   const button=event.target.closest("[data-save]");if(!button)return;
   const id=decodeURIComponent(button.dataset.save);

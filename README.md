@@ -27,3 +27,7 @@ To deploy: replace the four files in the root of the existing GitHub repository 
 
 ## Daily Good News Briefing
 The Daily Good News Briefing displays up to five highlights from the existing ranked feed. It uses each publisher's supplied headline and RSS description, with a link to the original article. It does not call a paid AI service and does not independently verify or rewrite article facts. Feed availability and article descriptions depend on the public RSS sources and rss2json demo endpoint.
+
+
+## World Map (source coverage)
+The map section visualizes the publisher-feed regions currently configured in `app.js` and lets visitors filter stories by those regions. It intentionally does not infer the country where an individual article's event occurred. The current feeds label NASA as United States and UN News, ScienceDaily, and Mongabay as International; country-level story mapping should wait until article location metadata is reliably available. The map illustration is local SVG and requires no paid map API or external map tiles.

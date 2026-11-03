@@ -39,6 +39,42 @@
       </div>
     </section>
 
+    <section class="world-map-section" aria-labelledby="worldMapTitle">
+      <div class="world-map-heading">
+        <div><p class="eyebrow dark">EXPLORE OUR COVERAGE</p><h2 id="worldMapTitle">Good News Around the World</h2>
+        <p class="world-map-subtitle">Explore the regions represented by our current publisher feeds.</p></div>
+        <span class="map-legend"><i></i> Feed coverage</span>
+      </div>
+      <div class="world-map-layout">
+        <div class="world-map-art" role="group" aria-label="Illustrated world map showing current feed coverage">
+          <svg viewBox="0 0 720 330" role="img" aria-labelledby="mapSvgTitle mapSvgDesc">
+            <title id="mapSvgTitle">World map with publisher feed coverage</title>
+            <desc id="mapSvgDesc">Stylized world map. A marker identifies United States publisher coverage; a separate global marker represents international publisher feeds whose article locations are not consistently identified.</desc>
+            <g class="map-land">
+              <path d="M67 75l28-22 39-8 26 12 15-5 21 16 29 5 14 18-8 17-22 5-8 18-21 8-8 25-18 8-8 23-20 4-9-17-20-8-8-20-19-8-9-21-22-7-12-23z"/>
+              <path d="M190 185l22 5 18 17-4 25-13 19-6 29-17 26-14-9-2-25-12-20 5-28z"/>
+              <path d="M330 76l24-17 35 2 15 13 27-2 19 13 25-4 19 13 27-2 23 14 33-1 28 17-8 15-30 2-14 13-24-4-17 16-20-2-14 16-24-5-14 13-18-5-13 16-20-6-8-19-19-5-9-21-22-9-12-23-24-9-12-23z"/>
+              <path d="M365 169l29 1 22 15 9 27-11 24-10 30-19 27-19-8-9-25-17-20 2-29 13-20z"/>
+              <path d="M540 225l30-9 27 8 18 18-8 20-26 6-24-10-20-16z"/>
+              <path d="M628 85l19-7 18 12-5 17-21 4-15-12z"/>
+            </g>
+            <g class="map-grid"><path d="M30 110H690M30 165H690M30 220H690M180 25V300M360 25V300M540 25V300"/></g>
+            <g class="map-pin-us"><circle cx="166" cy="115" r="17"/><circle cx="166" cy="115" r="6"/></g>
+            <text x="188" y="111" class="map-label">United States</text>
+            <g class="map-pin-global"><circle cx="430" cy="145" r="17"/><path d="M422 145h16M430 137v16"/></g>
+            <text x="452" y="141" class="map-label">International feeds</text>
+          </svg>
+          <p class="map-caption">Illustrative coverage map — markers show publisher-feed regions, not the verified location of every article.</p>
+        </div>
+        <div class="map-region-list">
+          <button class="map-region-button" type="button" data-map-region="United States"><span class="region-icon">🇺🇸</span><span><b>United States</b><small id="usStoryCount">Loading stories…</small></span><span class="region-arrow">↗</span></button>
+          <button class="map-region-button" type="button" data-map-region="International"><span class="region-icon">🌐</span><span><b>International</b><small id="internationalStoryCount">Loading stories…</small></span><span class="region-arrow">↗</span></button>
+          <button class="map-all-button" type="button" id="showAllRegions">View all worldwide stories</button>
+        </div>
+      </div>
+      <p class="map-disclaimer">Country-level article locations are not consistently supplied by the current RSS sources. This first version therefore shows source coverage only; it does not guess where a story happened.</p>
+    </section>
+
     <section class="controls" aria-label="Story filters">
       <div class="section-heading">
         <div><p class="eyebrow dark">THE GOOD NEWS FEED</p><h2 id="feedTitle">Today's bright spots</h2></div>
