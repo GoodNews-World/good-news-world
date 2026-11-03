@@ -286,3 +286,57 @@ a:hover{color:#0a9c85}
   .story-card h3{font-size:14px}
   .globe-panel,#goodNewsGlobe{height:280px!important}
 }
+
+
+/* Professional desktop discovery rail */
+@media(min-width:1100px){
+  .page{
+    max-width:1540px;margin:0 auto;padding:30px 26px 60px;
+    display:grid;grid-template-columns:258px minmax(0,1fr);gap:26px;align-items:start
+  }
+  .discovery-panel{
+    position:sticky;top:22px;align-self:start;max-height:calc(100vh - 44px);
+    overflow-y:auto;display:flex;flex-direction:column;gap:15px;
+    padding:0 2px 14px 0;scrollbar-width:thin;scrollbar-color:#c8dce3 transparent
+  }
+  .main-content{min-width:0}
+  .discovery-card,.discovery-section,.discovery-featured{
+    background:#fff;border:1px solid #e0e9ed;border-radius:17px;
+    box-shadow:0 5px 18px rgba(28,64,83,.055);padding:16px
+  }
+  .inspiration-card{background:linear-gradient(145deg,#f1f7fb,#fff 70%);border-left:3px solid #2f7894}
+  .discovery-kicker{font-size:9px;font-weight:800;letter-spacing:1.3px;color:#668392;margin:0 0 9px}
+  .inspiration-mark{font-family:Georgia,serif;font-size:42px;line-height:.8;color:#d4a84c;height:30px}
+  #dailyInspiration{font-family:Georgia,serif;font-size:17px;line-height:1.45;color:#203e50;margin:6px 0 10px}
+  #inspirationAttribution{font-size:10px;color:#7c929e}
+  .discovery-section h3,.discovery-featured h3{font-size:15px;color:#203f51;margin:0 0 5px;font-weight:750}
+  .discovery-caption{font-size:10px;color:#8297a2;margin:0 0 11px}
+  .discovery-links{display:flex;flex-direction:column;gap:4px}
+  .discovery-links button,.discovery-category-list button{
+    display:flex;align-items:center;gap:9px;width:100%;padding:8px 9px;
+    border:0;border-radius:9px;background:transparent;color:#35596b;
+    text-align:left;font-size:12px;font-weight:600;cursor:pointer
+  }
+  .discovery-links button:hover,.discovery-category-list button:hover{background:#edf5f7;color:#176b83}
+  .discovery-links button span{flex:1}
+  .discovery-footnote{font-size:9px;line-height:1.4;color:#93a3aa;margin:8px 0 0}
+  .discovery-category-list{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+  .discovery-category-list button{font-size:11px;padding:8px 6px}
+  .discovery-trending{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px}
+  .discovery-trending li button{width:100%;display:grid;grid-template-columns:24px 1fr;gap:2px 8px;text-align:left;background:transparent;border:0;border-radius:9px;padding:7px 4px;cursor:pointer}
+  .discovery-trending li button:hover{background:#f0f6f8}
+  .discovery-trending li button>span{grid-row:span 2;font-size:11px;color:#b18a3e;font-weight:800;padding-top:2px}
+  .discovery-trending b{font-size:11px;line-height:1.35;color:#355365;font-weight:700}
+  .discovery-trending small{font-size:9px;color:#8a9ca5;margin-top:2px}
+  .discovery-featured{background:linear-gradient(150deg,#f7f4eb,#fff);border-color:#eee5d1}
+  .featured-spark{font-size:25px;color:#c59b45;margin:2px 0 6px}
+  #discoveryFeaturedTitle{font-family:Georgia,serif;font-size:16px;line-height:1.3;margin-bottom:7px}
+  #discoveryFeaturedText{font-size:11px;line-height:1.45;color:#718792;margin:0 0 10px}
+  #discoveryFeaturedLink{font-size:11px;font-weight:750;color:#286f85;text-decoration:none}
+  .discovery-share{width:100%;padding:12px;border:1px solid #d5e3e8;border-radius:12px;background:#f7fafb;color:#315a6d;font-size:12px;font-weight:750;cursor:pointer}
+  .discovery-share:hover{background:#eaf4f6}
+}
+@media(max-width:1099px){
+  .discovery-panel{display:none}
+  .page{display:block}
+}

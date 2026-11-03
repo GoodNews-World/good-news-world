@@ -31,6 +31,52 @@
   </nav>
 
   <main class="page" id="home">
+    <aside class="discovery-panel" aria-label="Good News discovery panel">
+      <section class="discovery-card inspiration-card">
+        <p class="discovery-kicker">A MOMENT OF OPTIMISM</p>
+        <div class="inspiration-mark">“</div>
+        <p id="dailyInspiration">Small acts of kindness can make a big difference.</p>
+        <span id="inspirationAttribution">A thought for today</span>
+      </section>
+      <section class="discovery-section">
+        <h3>Explore by region</h3>
+        <p class="discovery-caption">Browse publisher coverage</p>
+        <div class="discovery-links">
+          <button data-discovery-region="All">🌐 <span>Worldwide</span></button>
+          <button data-discovery-region="United States">🇺🇸 <span>United States</span></button>
+          <button data-discovery-region="International">🌍 <span>International</span></button>
+          <button data-discovery-region="Africa">🌍 <span>Africa</span></button>
+          <button data-discovery-region="Europe">🇪🇺 <span>Europe</span></button>
+        </div>
+        <p class="discovery-footnote">Regions reflect publisher labels, not verified event locations.</p>
+      </section>
+      <section class="discovery-section">
+        <h3>Explore categories</h3>
+        <div class="discovery-category-list">
+          <button data-discovery-category="Science">🔬 Science</button>
+          <button data-discovery-category="Environment">🌱 Environment</button>
+          <button data-discovery-category="Health">💚 Health</button>
+          <button data-discovery-category="Humanity">❤️ Humanity</button>
+          <button data-discovery-category="Animals">🐾 Animals</button>
+          <button data-discovery-category="Progress">🌍 Progress</button>
+        </div>
+      </section>
+      <section class="discovery-section trending-section">
+        <h3>Trending good news</h3>
+        <p class="discovery-caption">Fresh stories from the current feed</p>
+        <ol id="discoveryTrending" class="discovery-trending"><li>Loading stories…</li></ol>
+      </section>
+      <section class="discovery-featured">
+        <p class="discovery-kicker">GOOD NEWS OF THE DAY</p>
+        <div class="featured-spark">✦</div>
+        <h3 id="discoveryFeaturedTitle">A brighter story is on its way</h3>
+        <p id="discoveryFeaturedText">Featured stories appear as the latest feeds load.</p>
+        <a id="discoveryFeaturedLink" href="#storyGrid">Explore the good news ↗</a>
+      </section>
+      <button class="discovery-share" id="discoveryShare" type="button">↗ <span>Share the good</span></button>
+    </aside>
+    <div class="main-content">
+
     <section class="hero">
       <div class="hero-copy">
         <p class="eyebrow">GOOD THINGS ARE HAPPENING</p>
@@ -123,7 +169,7 @@
       <div class="note-icon">☀</div>
       <div><h3>Good news deserves to travel.</h3><p>Stories are selected from publisher feeds using transparent topic signals. Open the original article to verify the full context.</p></div>
     </section>
-  </main>
+    </div>\n  </main>
 
   <footer><span>GOOD NEWS WORLD</span><span>Curiosity • Context • Hope</span><span>© <span id="year"></span></span></footer>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>

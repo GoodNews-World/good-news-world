@@ -12,7 +12,7 @@ const FEEDS = [
   {name:"Reasons to be Cheerful", url:"https://reasonstobecheerful.world/feed/", category:"Progress", region:"International"},
   {name:"Our World in Data", url:"https://ourworldindata.org/atom.xml", category:"Progress", region:"International"},
   {name:"Happy Eco News", url:"https://happyeconews.com/feed/", category:"Environment", region:"International"},
-  {name:"Fix The News", url:"https://substack.fixthenews.com/feed", category:"Progress", region:"International"}
+  {name:"Fix The News", url:"https://substack.fixthenews.com/feed", category:"Progress", region:"International"},
   {name:"The Optimist Daily", url:"https://optimistdaily.com/feed/", category:"Humanity", region:"United States"},
   {name:"Good Good Good", url:"https://goodgoodgood.co/articles/rss.xml", category:"Humanity", region:"United States"},
   {name:"Upworthy", url:"https://upworthy.com/feed", category:"Humanity", region:"United States"},
@@ -178,10 +178,43 @@ function renderBriefing(ranked) {
     </article>`;
   }).join("");
 }
+
+const inspirationQuotes = [
+  ["Small acts of kindness can make a big difference.","A thought for today"],
+  ["Progress is built one hopeful step at a time.","A thought for today"],
+  ["There is good worth discovering in every corner of the world.","A thought for today"],
+  ["A brighter future begins with what we do today.","A thought for today"],
+  ["Hope grows when people work together.","A thought for today"],
+  ["Every good idea starts with someone who believes change is possible.","A thought for today"],
+  ["The world moves forward through millions of everyday acts of care.","A thought for today"]
+];
+function renderDiscoveryPanel(ranked) {
+  const quote = inspirationQuotes[Math.floor(Date.now()/86400000)%inspirationQuotes.length];
+  $("dailyInspiration").textContent=quote[0];
+  $("inspirationAttribution").textContent=quote[1];
+  const trending=$("discoveryTrending");
+  trending.innerHTML=ranked.slice(0,4).map((story,index)=>
+    `<li><button type="button" data-trending-index="${index}"><span>${String(index+1).padStart(2,"0")}</span><b>${safe(story.title)}</b><small>${safe(story.category)} · ${safe(story.source)}</small></button></li>`
+  ).join("") || "<li>New stories will appear here when feeds load.</li>";
+  if(ranked.length){
+    const featured=ranked[0];
+    $("discoveryFeaturedTitle").textContent=featured.title;
+    $("discoveryFeaturedText").textContent=(featured.description||"Open the original publisher article to read this hopeful update.").slice(0,150);
+    $("discoveryFeaturedLink").href=featured.link;
+    $("discoveryFeaturedLink").target="_blank";
+    $("discoveryFeaturedLink").rel="noopener noreferrer";
+  } else {
+    $("discoveryFeaturedTitle").textContent="A brighter story is on its way";
+    $("discoveryFeaturedText").textContent="Featured stories appear as the latest feeds load.";
+    $("discoveryFeaturedLink").href="#storyGrid";
+    $("discoveryFeaturedLink").removeAttribute("target");
+  }
+}
 function render() {
   const ranked=[...stories].sort((a,b)=>b.score-a.score||b.positive-a.positive||b.timestamp-a.timestamp).slice(0,10);
   renderCards(ranked,$("top10Grid"),true);
   renderBriefing(ranked);
+  renderDiscoveryPanel(ranked);
   $("usStoryCount").textContent = `${stories.filter(s=>s.region==="United States").length} matching stories`;
   $("internationalStoryCount").textContent = `${stories.filter(s=>s.region==="International").length} matching stories`;
   $("top10Note").textContent=ranked.length?`${ranked.length} stories ranked from the latest feed. Scores favor stronger positive signals, with newer stories breaking ties.`:"Top 10 will appear when qualifying stories are available.";
@@ -201,6 +234,38 @@ function toast(message) {
   const el=$("toast");el.textContent=message;el.classList.add("show");
   setTimeout(()=>el.classList.remove("show"),2200);
 }
+
+document.querySelectorAll("[data-discovery-region]").forEach(button=>button.addEventListener("click",()=>{
+  const region=button.dataset.discoveryRegion;
+  $("countryFilter").value=[...$("countryFilter").options].some(o=>o.value===region)?region:"All";
+  $("searchInput").value="";
+  savedOnly=false;activeCategory="All";
+  $("savedShortcut").textContent="☆ Saved "+saved.length;
+  document.querySelectorAll(".chip").forEach(chip=>chip.classList.toggle("active",chip.dataset.category==="All"));
+  render();
+  $("storyGrid").scrollIntoView({behavior:"smooth",block:"start"});
+}));
+document.querySelectorAll("[data-discovery-category]").forEach(button=>button.addEventListener("click",()=>{
+  const category=button.dataset.discoveryCategory;
+  const chip=document.querySelector(`.chip[data-category="${category}"]`);
+  if(chip) chip.click();
+  $("storyGrid").scrollIntoView({behavior:"smooth",block:"start"});
+}));
+$("discoveryTrending").addEventListener("click",event=>{
+  const button=event.target.closest("[data-trending-index]");
+  if(!button)return;
+  const ranked=[...stories].sort((a,b)=>b.score-a.score||b.positive-a.positive||b.timestamp-a.timestamp);
+  const story=ranked[Number(button.dataset.trendingIndex)];
+  if(story?.link) window.open(story.link,"_blank","noopener");
+});
+$("discoveryShare").addEventListener("click",async()=>{
+  const shareData={title:"Good News World",text:"Discover hopeful stories and positive progress from around the world.",url:window.location.href};
+  try{
+    if(navigator.share) await navigator.share(shareData);
+    else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(shareData.url);toast("Website link copied to clipboard.");}
+    else toast("Copy your website address from the browser to share it.");
+  }catch(error){if(error.name!=="AbortError")toast("Sharing isn't available in this browser.");}
+});
 $("categoryFilters").addEventListener("click",event=>{
   const button=event.target.closest("[data-category]");if(!button)return;
   activeCategory=button.dataset.category;
