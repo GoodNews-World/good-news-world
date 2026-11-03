@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123c35">
+  <title>Good News World</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Good News World home">
+      <span class="brand-mark">✦</span>
+      <span>GOOD NEWS <b>WORLD</b></span>
+    </a>
+    <div class="top-actions">
+      <span class="live-dot"></span><span class="updated-label">A brighter view of the world</span>
+      <button id="savedShortcut" class="saved-shortcut" type="button">☆ Saved <span id="savedCount">0</span></button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">GOOD THINGS ARE HAPPENING</p>
+        <h1>A brighter view<br>of what's happening.</h1>
+        <p class="hero-subtitle">Discover hopeful discoveries, acts of kindness, and positive progress from around the world.</p>
+        <label class="searchbox">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="Search topics, countries, or stories…" autocomplete="off">
+          <kbd>SEARCH</kbd>
+        </label>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="globe">🌎</div>
+        <span class="spark spark-a">✦</span><span class="spark spark-b">✧</span><span class="spark spark-c">✦</span>
+        <div class="art-note"><span>✦</span> A little more hope, every day.</div>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Story filters">
+      <div class="section-heading">
+        <div><p class="eyebrow dark">THE GOOD NEWS FEED</p><h2 id="feedTitle">Today's bright spots</h2></div>
+        <span class="demo-badge">STARTER PREVIEW</span>
+      </div>
+      <div class="filter-row">
+        <div id="categoryFilters" class="chips">
+          <button class="chip active" data-category="All">All stories</button>
+          <button class="chip" data-category="Science">🔬 Science</button>
+          <button class="chip" data-category="Environment">🌱 Environment</button>
+          <button class="chip" data-category="Health">💚 Health</button>
+          <button class="chip" data-category="Humanity">❤️ Humanity</button>
+          <button class="chip" data-category="Animals">🐾 Animals</button>
+          <button class="chip" data-category="Progress">🌍 Progress</button>
+        </div>
+        <select id="countryFilter" aria-label="Filter by country">
+          <option value="All">All countries</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="storyGrid" class="story-grid" aria-live="polite"></section>
+    <section id="emptyState" class="empty-state" hidden>
+      <div>🔎</div><h3>No stories found</h3><p>Try another search or choose a different category.</p>
+      <button id="clearFilters" class="button-primary">Clear filters</button>
+    </section>
+
+    <section class="daily-note">
+      <div class="note-icon">☀</div>
+      <div><h3>Good news deserves to travel.</h3><p>This is your starter edition. Next, we'll connect trusted news feeds so the stories update automatically.</p></div>
+    </section>
+  </main>
+
+  <footer><span>GOOD NEWS WORLD</span><span>Curiosity • Context • Hope</span><span>© <span id="year"></span></span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
