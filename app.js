@@ -1,24 +1,184 @@
-// Good News World — first live RSS prototype.
-// RSS retrieval uses rss2json's public demo relay for testing; it is not a production SLA.
+// Good News World — source-health and quality-filter update.
+// RSS is accessed through rss2json's public demo endpoint for prototyping only.
 const FEEDS = [
-  {name:"NASA", url:"https://www.nasa.gov/feed/", country:"United States", category:"Science"},
-  {name:"UN News", url:"https://news.un.org/feed/subscribe/en/news/all/rss.xml", country:"International", category:"Progress"},
-  {name:"ScienceDaily", url:"https://www.sciencedaily.com/rss/top/science.xml", country:"International", category:"Science"},
-  {name:"Mongabay", url:"https://news.mongabay.com/feed/", country:"International", category:"Environment"}
+  {name:"NASA", url:"https://www.nasa.gov/feed/", category:"Science", region:"United States"},
+  {name:"UN News", url:"https://news.un.org/feed/subscribe/en/news/all/rss.xml", category:"Progress", region:"International"},
+  {name:"ScienceDaily · Top Science", url:"https://www.sciencedaily.com/rss/top/science.xml", category:"Science", region:"International"},
+  {name:"ScienceDaily · Health", url:"https://www.sciencedaily.com/rss/top/health.xml", category:"Health", region:"International"},
+  {name:"ScienceDaily · Environment", url:"https://www.sciencedaily.com/rss/top/environment.xml", category:"Environment", region:"International"},
+  {name:"Mongabay", url:"https://news.mongabay.com/feed/", category:"Environment", region:"International"}
 ];
-const POSITIVE=["breakthrough","success","recovery","restore","restoration","protect","conservation","discovery","innovation","progress","improve","improved","improvement","rescue","cure","treatment","vaccine","renewable","clean energy","award","community","volunteer","wildlife","endangered","reforestation","education","solution","achievement","helping","access","species recovery"];
-const NEGATIVE=["war","killed","murder","attack","bomb","crisis","disaster","death toll","fatal","shooting","violence","crash","explosion","terror","outbreak","scandal","fraud","arrested","conflict","threat","devastat","flood","earthquake","hurricane","wildfire","drought","recession","layoff"];
-const CATEGORIES={Science:["science","research","space","NASA","technology","scientist","discovery","energy"],Environment:["environment","wildlife","forest","conservation","climate","ocean","species","habitat","nature"],Health:["health","medical","medicine","hospital","vaccine","cancer","disease","treatment"],Humanity:["volunteer","community","charity","humanitarian","help","families","donation","kindness"],Animals:["animal","wildlife","species","elephant","turtle","bird","habitat"],Progress:["education","poverty","development","United Nations","school","access","economy"]};
-const $=id=>document.getElementById(id);let stories=[],activeCategory="All",saved=JSON.parse(localStorage.getItem("gnw_saved")||"[]"),savedOnly=false;
-function clean(v){const el=document.createElement("div");el.innerHTML=v||"";return(el.textContent||"").replace(/\\s+/g," ").trim()}
-function safe(v){return String(v||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function score(t){t=t.toLowerCase();return POSITIVE.filter(w=>t.includes(w)).length-2*NEGATIVE.filter(w=>t.includes(w)).length}
-function categoryFor(t,fallback){for(const [c,words] of Object.entries(CATEGORIES)){if(words.some(w=>t.toLowerCase().includes(w.toLowerCase())))return c}return fallback}
-function dateFor(v){const d=new Date(v);return isNaN(d)?"Recent":d.toLocaleDateString(undefined,{month:"short",day:"numeric"})}
-async function fetchFeed(feed){const endpoint="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(feed.url);const response=await fetch(endpoint);if(!response.ok)throw Error("RSS relay request failed");const data=await response.json();if(data.status!=="ok")throw Error(data.message||"Feed unavailable");return(data.items||[]).map(item=>{const title=clean(item.title),description=clean(item.description||item.content),txt=title+" "+description;return{id:item.link||title,title,description:description.slice(0,300),link:item.link||"",source:feed.name,date:item.pubDate,country:feed.country,category:categoryFor(txt,feed.category),score:score(txt)}})}
-async function loadFeeds(){ $("updateStatus").textContent="Checking publisher feeds…";$("resultCount").textContent="Fetching articles…";const results=await Promise.allSettled(FEEDS.map(fetchFeed));const merged=results.filter(r=>r.status==="fulfilled").flatMap(r=>r.value);stories=[...new Map(merged.filter(s=>s.link&&s.score>0).map(s=>[s.link,s])).values()].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,60);const working=results.filter(r=>r.status==="fulfilled").length;$("updateStatus").textContent=stories.length?"Feed refreshed · "+new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"Feeds temporarily unavailable";$("resultCount").textContent=`${stories.length} stories passed the initial keyword filter · ${working}/${FEEDS.length} feeds responding`;const sel=$("countryFilter"),previous=sel.value;sel.innerHTML='<option value="All">All countries</option>';[...new Set(stories.map(s=>s.country))].sort().forEach(name=>{const o=document.createElement("option");o.value=name;o.textContent=name;sel.append(o)});sel.value=[...sel.options].some(o=>o.value===previous)?previous:"All";render();if(!stories.length){$("emptyState").hidden=false;$("storyGrid").hidden=true;$("emptyState").querySelector("h3").textContent="No live stories loaded";$("emptyState").querySelector("p").textContent="The free RSS relay may be unavailable, or no items passed the keyword filter. Try Refresh feed later."}}
-function render(){const q=$("searchInput").value.toLowerCase().trim(),country=$("countryFilter").value;const list=stories.filter(s=>(activeCategory==="All"||s.category===activeCategory)&&(country==="All"||s.country===country)&&(!q||[s.title,s.description,s.source,s.country,s.category].join(" ").toLowerCase().includes(q))&&(!savedOnly||saved.includes(s.id)));const emoji={Science:"🔬",Environment:"🌱",Health:"💚",Humanity:"❤️",Animals:"🐾",Progress:"🌍"};$("storyGrid").innerHTML=list.map(s=>`<article class="story-card"><div class="card-visual" style="--visual:#e8f2ed"><span class="card-category">${safe(s.category.toUpperCase())}</span><span>${emoji[s.category]||"🌎"}</span></div><div class="card-body"><div class="card-meta"><span>${safe(s.country)}</span><span>${dateFor(s.date)}</span></div><h3>${safe(s.title)}</h3><p>${safe(s.description||"Open the publisher's page to read the story.")}</p><div class="card-bottom"><span class="source">${safe(s.source)}</span><div class="card-actions"><button class="icon-button ${saved.includes(s.id)?"saved":""}" data-save="${encodeURIComponent(s.id)}" aria-label="Save story">${saved.includes(s.id)?"★":"☆"}</button><a class="read-link" href="${safe(s.link)}" target="_blank" rel="noopener noreferrer">READ SOURCE ↗</a></div></div></div></article>`).join("");$("emptyState").hidden=list.length>0;$("storyGrid").hidden=list.length===0;$("savedCount").textContent=saved.length;$("feedTitle").textContent=savedOnly?"Your saved stories":"Today's bright spots"}
-function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2100)}
-$("categoryFilters").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(!b)return;activeCategory=b.dataset.category;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));render()});$("searchInput").addEventListener("input",render);$("countryFilter").addEventListener("change",render);
-$("storyGrid").addEventListener("click",e=>{const b=e.target.closest("[data-save]");if(!b)return;const id=decodeURIComponent(b.dataset.save);saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];localStorage.setItem("gnw_saved",JSON.stringify(saved));render();toast("Saved list updated")});
-$("savedShortcut").addEventListener("click",()=>{savedOnly=!savedOnly;$("savedShortcut").textContent=savedOnly?"← All stories":"☆ Saved "+saved.length;render()});$("refreshButton").addEventListener("click",loadFeeds);$("clearFilters").addEventListener("click",()=>{activeCategory="All";savedOnly=false;$("searchInput").value="";$("countryFilter").value="All";document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x.dataset.category==="All"));$("savedShortcut").textContent="☆ Saved "+saved.length;render()});$("year").textContent=new Date().getFullYear();loadFeeds();setInterval(loadFeeds,30*60*1000);
+
+const POSITIVE = [
+  ["restoration",3],["recovery",3],["recovered",3],["reintroduce",3],["reintroduced",3],
+  ["breakthrough",2],["discovery",2],["discovered",2],["protect",2],["protected",2],
+  ["conservation",2],["renewable",2],["clean energy",2],["vaccine",2],["treatment",2],
+  ["cure",2],["improve",2],["improved",2],["improvement",2],["progress",1],
+  ["volunteer",2],["community-led",2],["rescue",2],["saved",2],["education",1],
+  ["access to",1],["award",1],["record number",1],["decline in",2],["reduced",1],
+  ["increase in",1],["new species",2],["successful",2],["successfully",2],["help",1],
+  ["funding",0],["initiative",0],["launch",0],["opens",0],["opened",0]
+];
+const NEGATIVE = [
+  ["killed",4],["death toll",4],["massacre",5],["bombing",4],["war",3],
+  ["attack",3],["shooting",4],["murder",4],["violence",3],["disaster",3],
+  ["crisis",2],["outbreak",3],["epidemic",3],["devastating",3],["devastated",3],
+  ["collapse",2],["fatal",3],["threat",2],["conflict",2],["flood",2],
+  ["earthquake",2],["hurricane",2],["wildfire",2],["drought",2],["scandal",2],
+  ["fraud",2],["arrested",1],["layoff",2],["bankruptcy",2]
+];
+const CATEGORIES = {
+  Science:["science","research","space","NASA","technology","scientist","discovery","energy","robot","physics"],
+  Environment:["environment","wildlife","forest","conservation","climate","ocean","species","habitat","nature","biodiversity"],
+  Health:["health","medical","medicine","hospital","vaccine","cancer","disease","WHO","treatment","clinical"],
+  Humanity:["volunteer","community","charity","humanitarian","help","families","donation","kindness","food bank"],
+  Animals:["animal","wildlife","species","elephant","turtle","bird","habitat","marine","whale"],
+  Progress:["education","poverty","development","United Nations","school","access","literacy","clean water","employment"]
+};
+const $ = id => document.getElementById(id);
+let stories = [];
+let activeCategory = "All";
+let saved = JSON.parse(localStorage.getItem("gnw_saved") || "[]");
+let savedOnly = false;
+let feedStatus = [];
+
+function clean(value) {
+  const node = document.createElement("div");
+  node.innerHTML = value || "";
+  return (node.textContent || "").replace(/\s+/g, " ").trim();
+}
+function safe(value) {
+  return String(value || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function scoreStory(text) {
+  const t = text.toLowerCase();
+  let good = 0, bad = 0;
+  for (const [term, points] of POSITIVE) if (t.includes(term)) good += points;
+  for (const [term, points] of NEGATIVE) if (t.includes(term)) bad += points;
+  return {good, bad, score:good-bad};
+}
+function chooseCategory(text, fallback) {
+  for (const [category, terms] of Object.entries(CATEGORIES)) {
+    if (terms.some(term => text.toLowerCase().includes(term.toLowerCase()))) return category;
+  }
+  return fallback;
+}
+function parseDate(value) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+function dateLabel(value) {
+  const date = parseDate(value);
+  return date ? date.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"}) : "Date unavailable";
+}
+async function fetchFeed(feed) {
+  const endpoint = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(feed.url);
+  const response = await fetch(endpoint);
+  if (!response.ok) throw new Error("HTTP " + response.status);
+  const payload = await response.json();
+  if (payload.status !== "ok") throw new Error(payload.message || "Feed parser error");
+  const items = (payload.items || []).map(item => {
+    const title = clean(item.title);
+    const description = clean(item.description || item.content);
+    const text = title + " " + description;
+    const rating = scoreStory(text);
+    const published = parseDate(item.pubDate);
+    return {
+      id:item.link || title, title, description:description.slice(0,320),
+      link:item.link || "", source:feed.name, date:item.pubDate || "",
+      timestamp:published ? published.getTime() : 0,
+      region:feed.region, category:chooseCategory(text,feed.category),
+      positive:rating.good, negative:rating.bad, score:rating.score
+    };
+  });
+  return {feed:feed.name,items};
+}
+async function loadFeeds() {
+  $("updateStatus").textContent = "Checking " + FEEDS.length + " feeds…";
+  $("resultCount").textContent = "Fetching and checking recent articles…";
+  const checks = await Promise.all(FEEDS.map(async feed => {
+    try { const result = await fetchFeed(feed); return {ok:true,...result}; }
+    catch (error) { return {ok:false,feed:feed.name,error:error.message,items:[]}; }
+  }));
+  feedStatus = checks;
+  const all = checks.flatMap(result => result.items);
+  const now = Date.now();
+  // Exclude undated and older-than-30-day items; avoid presenting stale stories as current.
+  const recent = all.filter(item => item.timestamp && now-item.timestamp <= 30*24*60*60*1000);
+  // Require positive evidence and a positive margin over negative signals.
+  const qualified = recent.filter(item => item.positive >= 2 && item.score >= 2);
+  stories = [...new Map(qualified.filter(item => item.link).map(item => [item.link,item])).values()]
+    .sort((a,b)=>b.timestamp-a.timestamp).slice(0,75);
+  const goodFeeds = checks.filter(result=>result.ok).length;
+  $("updateStatus").textContent = goodFeeds ? `${goodFeeds}/${FEEDS.length} sources responding` : "News sources unavailable";
+  $("resultCount").textContent = `${stories.length} recent stories passed topic screening · ${goodFeeds}/${FEEDS.length} feeds responding`;
+  const countrySelect = $("countryFilter"), previous = countrySelect.value;
+  countrySelect.innerHTML = '<option value="All">All regions</option>';
+  [...new Set(stories.map(s=>s.region))].sort().forEach(region=>{
+    const option=document.createElement("option");option.value=region;option.textContent=region;countrySelect.append(option);
+  });
+  countrySelect.value=[...countrySelect.options].some(o=>o.value===previous)?previous:"All";
+  render();
+  if (!stories.length) {
+    $("emptyState").hidden=false; $("storyGrid").hidden=true;
+    $("emptyState").querySelector("h3").textContent="No stories passed the quality filter";
+    $("emptyState").querySelector("p").textContent="Feeds may be temporarily unavailable, or recent articles did not meet the positive-topic threshold. Try Refresh.";
+  }
+}
+function render() {
+  const query=$("searchInput").value.toLowerCase().trim(), region=$("countryFilter").value;
+  const list=stories.filter(s=>
+    (activeCategory==="All"||s.category===activeCategory) &&
+    (region==="All"||s.region===region) &&
+    (!query||[s.title,s.description,s.source,s.region,s.category].join(" ").toLowerCase().includes(query)) &&
+    (!savedOnly||saved.includes(s.id))
+  );
+  const icons={Science:"🔬",Environment:"🌱",Health:"💚",Humanity:"❤️",Animals:"🐾",Progress:"🌍"};
+  $("storyGrid").innerHTML=list.map(s=>`
+    <article class="story-card">
+      <div class="card-visual" style="--visual:#e8f2ed"><span class="card-category">${safe(s.category.toUpperCase())}</span><span>${icons[s.category]||"🌎"}</span></div>
+      <div class="card-body">
+        <div class="card-meta"><span>${safe(s.region)}</span><span>${dateLabel(s.date)}</span></div>
+        <h3>${safe(s.title)}</h3><p>${safe(s.description||"Open the original publisher article for details.")}</p>
+        <div class="card-bottom"><span class="source">${safe(s.source)}</span><div class="card-actions">
+          <button class="icon-button ${saved.includes(s.id)?"saved":""}" data-save="${encodeURIComponent(s.id)}" aria-label="Save story">${saved.includes(s.id)?"★":"☆"}</button>
+          <a class="read-link" href="${safe(s.link)}" target="_blank" rel="noopener noreferrer">READ SOURCE ↗</a>
+        </div></div>
+      </div>
+    </article>`).join("");
+  $("emptyState").hidden=list.length>0; $("storyGrid").hidden=list.length===0;
+  $("savedCount").textContent=saved.length;
+  $("feedTitle").textContent=savedOnly?"Your saved stories":"Today's bright spots";
+}
+function toast(message) {
+  const el=$("toast");el.textContent=message;el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"),2200);
+}
+$("categoryFilters").addEventListener("click",event=>{
+  const button=event.target.closest("[data-category]");if(!button)return;
+  activeCategory=button.dataset.category;
+  document.querySelectorAll(".chip").forEach(chip=>chip.classList.toggle("active",chip===button));
+  render();
+});
+$("searchInput").addEventListener("input",render);
+$("countryFilter").addEventListener("change",render);
+$("storyGrid").addEventListener("click",event=>{
+  const button=event.target.closest("[data-save]");if(!button)return;
+  const id=decodeURIComponent(button.dataset.save);
+  saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];
+  localStorage.setItem("gnw_saved",JSON.stringify(saved));render();toast("Saved list updated");
+});
+$("savedShortcut").addEventListener("click",()=>{
+  savedOnly=!savedOnly;
+  $("savedShortcut").textContent=savedOnly?"← All stories":"☆ Saved "+saved.length;
+  render();
+});
+$("refreshButton").addEventListener("click",loadFeeds);
+$("clearFilters").addEventListener("click",()=>{
+  activeCategory="All";savedOnly=false;$("searchInput").value="";$("countryFilter").value="All";
+  document.querySelectorAll(".chip").forEach(chip=>chip.classList.toggle("active",chip.dataset.category==="All"));
+  $("savedShortcut").textContent="☆ Saved "+saved.length;render();
+});
+$("year").textContent=new Date().getFullYear();
+loadFeeds();
+setInterval(loadFeeds,30*60*1000);

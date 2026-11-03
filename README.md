@@ -1,7 +1,25 @@
-# Good News World — live RSS prototype
+# Good News World — quality-filter update
 
-This update replaces the illustrative cards with RSS articles from NASA, UN News, ScienceDaily, and Mongabay. The browser retrieves feeds through the public rss2json demo relay for this prototype.
+Configured feeds:
+- NASA general RSS
+- UN News English RSS
+- ScienceDaily Top Science
+- ScienceDaily Top Health
+- ScienceDaily Top Environment
+- Mongabay general RSS
 
-Limitations: the relay may be rate-limited or unavailable and is not a production service. Positive/negative keyword scoring is a rough topic filter, not fact-checking; false positives and missed stories are possible. Country labels are broad source defaults, not verified article locations. Publisher content rights apply; the app links to original articles and displays short feed descriptions.
+Improvements:
+- Per-source success/failure tracking in the header
+- Duplicate removal by canonical article link
+- Date screening (items must have a parseable date and be no older than 30 days)
+- Weighted positive and negative topic terms; an item must have at least 2 positive points and a positive score of at least 2
+- Category inference and original publisher link
+- Refresh button and 30-minute automatic refresh
 
-Deploy: replace `index.html`, `styles.css`, `app.js`, and `README.md` in the root of the existing GitHub repository with these files, then commit. GitHub Pages will redeploy automatically.
+Limitations:
+- RSS retrieval still uses rss2json's public demo endpoint; availability and rate limits are outside this app's control.
+- Keyword scoring is a transparent heuristic, not AI fact-checking or editorial verification. It can miss positive articles and may still include a misleading headline.
+- Current location selector is labeled as a region because source defaults are not reliable article-level geolocation.
+- Feed descriptions and article titles are displayed with publisher attribution and links; publishers' content rights remain in effect.
+
+To deploy: replace the four files in the root of the existing GitHub repository with these four files and commit the changes. GitHub Pages will rebuild automatically.
