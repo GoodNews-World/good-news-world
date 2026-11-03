@@ -55,3 +55,7 @@ This version adds a brighter turquoise, sky-blue, green, sunshine-yellow and cor
 
 ## iPhone app-style update
 This version adds an iPhone-friendly fixed bottom navigation, larger touch targets, single-column story cards, a simplified mobile globe layout, and a custom home-screen icon. Safari uses `app-icon.png` as the home-screen icon when the site is added to the Home Screen. This remains a free website/PWA-style shortcut, not an App Store native app.
+
+
+## Expanded news sources
+This update expands the feed list from 12 to 22 sources. New additions include The Optimist Daily, Good Good Good, Upworthy, Nice News, Squirrel News, Anthropocene Magazine, Sunny Skyz, WHO Africa, and two additional ScienceDaily topic feeds (Technology and Society). Feed availability and RSS parser compatibility can vary. Stories still pass the existing date and keyword-based positive-topic filter; this is not independent fact-checking. Publisher region labels describe the source's broad region, not the verified location of each story. The free public rss2json demo endpoint may rate-limit or temporarily fail when many feeds refresh together.

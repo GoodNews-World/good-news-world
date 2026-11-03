@@ -13,6 +13,16 @@ const FEEDS = [
   {name:"Our World in Data", url:"https://ourworldindata.org/atom.xml", category:"Progress", region:"International"},
   {name:"Happy Eco News", url:"https://happyeconews.com/feed/", category:"Environment", region:"International"},
   {name:"Fix The News", url:"https://substack.fixthenews.com/feed", category:"Progress", region:"International"}
+  {name:"The Optimist Daily", url:"https://optimistdaily.com/feed/", category:"Humanity", region:"United States"},
+  {name:"Good Good Good", url:"https://goodgoodgood.co/articles/rss.xml", category:"Humanity", region:"United States"},
+  {name:"Upworthy", url:"https://upworthy.com/feed", category:"Humanity", region:"United States"},
+  {name:"Nice News", url:"https://nicenews.com/feed/", category:"Humanity", region:"United States"},
+  {name:"Squirrel News", url:"https://squirrel-news.net/feed/", category:"Progress", region:"Europe"},
+  {name:"Anthropocene Magazine", url:"https://anthropocenemagazine.org/feed/", category:"Science", region:"International"},
+  {name:"Sunny Skyz", url:"https://www.sunnyskyz.com/rss_tebow.php", category:"Humanity", region:"United States"},
+  {name:"WHO Africa", url:"https://www.afro.who.int/rss/featured-news.xml", category:"Health", region:"Africa"},
+  {name:"ScienceDaily · Technology", url:"https://www.sciencedaily.com/rss/top/technology.xml", category:"Science", region:"International"},
+  {name:"ScienceDaily · Society", url:"https://www.sciencedaily.com/rss/top/society.xml", category:"Progress", region:"International"},
 ];
 
 const POSITIVE = [
